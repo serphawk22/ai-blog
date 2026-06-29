@@ -3,10 +3,9 @@ import { notFound } from 'next/navigation';
 import { ArrowLeft, Clock, Calendar } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import Chatbot from '@/components/Chatbot';
+import prisma from '@/lib/prisma';
 
 async function getBlog(id: string) {
-  const { PrismaClient } = await import('@prisma/client');
-  const prisma = new PrismaClient();
   try {
     const blog = await prisma.blog.findUnique({
       where: { id }
