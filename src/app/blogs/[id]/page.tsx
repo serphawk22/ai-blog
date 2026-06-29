@@ -5,6 +5,8 @@ import ReactMarkdown from 'react-markdown';
 import Chatbot from '@/components/Chatbot';
 import prisma from '@/lib/prisma';
 
+import prisma from '@/lib/prisma';
+
 async function getBlog(id: string) {
   try {
     const blog = await prisma.blog.findUnique({

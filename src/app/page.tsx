@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import prisma from '@/lib/prisma';
 
+import prisma from '@/lib/prisma';
+
 async function getBlogs() {
   try {
     const blogs = await prisma.blog.findMany({ orderBy: { createdAt: 'desc' } });
@@ -36,7 +38,7 @@ export default async function Home() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {blogs.map((blog) => (
+            {blogs.map((blog: any) => (
               <Link key={blog.id} href={`/blogs/${blog.id}`} className="group relative rounded-2xl overflow-hidden bg-white/5 border border-white/10 transition-all hover:border-fuchsia-500/50 hover:shadow-[0_0_30px_-5px_rgba(217,70,239,0.3)] hover:-translate-y-1">
                 {blog.imageUrl && (
                   <div className="aspect-[16/10] overflow-hidden">
