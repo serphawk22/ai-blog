@@ -1,10 +1,7 @@
 import Link from 'next/link';
+import prisma from '@/lib/prisma';
 
 async function getBlogs() {
-  // In a real app we might fetch from the absolute URL, 
-  // but since this is a server component, we can use prisma directly to avoid fetch issues on Vercel deployment.
-  const { PrismaClient } = await import('@prisma/client');
-  const prisma = new PrismaClient();
   try {
     const blogs = await prisma.blog.findMany({ orderBy: { createdAt: 'desc' } });
     return blogs;
