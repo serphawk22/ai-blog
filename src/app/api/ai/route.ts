@@ -1,32 +1,45 @@
 import { NextResponse } from 'next/server';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import OpenAI from 'openai';
 
-// Initialize the Google Generative AI SDK
-const genAI = new GoogleGenerativeAI(process.env.AI_API_KEY || '');
+// Initialize the OpenAI SDK
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY || 'dummy_key_for_build',
+});
 
 export async function POST(request: Request) {
   try {
     const { action, text, context } = await request.json();
 
-    if (!process.env.AI_API_KEY) {
-      return NextResponse.json({ error: 'AI API Key is missing. Please configure it in environment variables.' }, { status: 500 });
+    if (!process.env.OPENAI_API_KEY) {
+      return NextResponse.json({ error: 'OPENAI_API_KEY is missing. Please configure it in environment variables.' }, { status: 500 });
     }
 
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    let systemPrompt = '';
+    let userPrompt = '';
 
-    let prompt = '';
     if (action === 'summarize') {
-      prompt = `Summarize the following blog post in a concise, engaging way:\n\n${context}`;
+      systemPrompt = 'You are a helpful assistant that summarizes blog posts concisely and engagingly.';
+      userPrompt = `Summarize the following blog post:\n\n${context}`;
     } else if (action === 'chat') {
-      prompt = `You are a helpful AI assistant for a specific blog post. Use the following blog post as context to answer the user's question.\n\nBlog Context:\n${context}\n\nUser Question:\n${text}`;
+      systemPrompt = `You are a helpful AI assistant for a specific blog post. Use the provided blog post as context to answer the user's questions accurately based on the text. If the user asks something completely unrelated, politely guide them back to the topic of the blog.\n\nBlog Context:\n${context}`;
+      userPrompt = text;
     } else if (action === 'paraphrase') {
-      prompt = `Rewrite and paraphrase the following text to make it sound more professional and engaging. Return ONLY the paraphrased text without any extra conversational filler.\n\nText:\n${text}`;
+      systemPrompt = 'You are an expert editor. Rewrite and paraphrase the provided text to make it sound more professional, clear, and engaging. Return ONLY the paraphrased text without any extra conversational filler.';
+      userPrompt = `Text to paraphrase:\n${text}`;
     } else {
       return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
     }
 
-    const result = await model.generateContent(prompt);
-    const responseText = result.response.text();
+    const response = await openai.chat.completions.create({
+      model: 'gpt-4o',
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userPrompt }
+      ],
+      temperature: 0.7,
+    });
+
+    const responseText = response.choices[0]?.message?.content || '';
 
     return NextResponse.json({ result: responseText });
   } catch (error) {
