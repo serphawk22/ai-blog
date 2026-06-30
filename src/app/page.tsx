@@ -3,6 +3,8 @@ import Image from 'next/image';
 import prisma from '@/lib/prisma';
 import { Blog } from '@prisma/client';
 
+export const dynamic = 'force-dynamic';
+
 
 async function getBlogs() {
   try {
@@ -18,8 +20,12 @@ export default async function Home() {
   const blogs = await getBlogs();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white font-sans selection:bg-fuchsia-300 selection:text-fuchsia-900">
-      <main className="max-w-6xl mx-auto px-6 py-16">
+    <div className="min-h-screen relative bg-slate-950 text-white selection:bg-fuchsia-300 selection:text-fuchsia-900 overflow-hidden z-0">
+      {/* Dynamic Background Blobs */}
+      <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-fuchsia-600/20 rounded-full blur-[120px] animate-pulse-glow -z-10"></div>
+      <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-cyan-600/20 rounded-full blur-[120px] animate-pulse-glow -z-10" style={{ animationDelay: '1.5s' }}></div>
+      
+      <main className="max-w-6xl mx-auto px-6 py-20 relative z-10">
         <header className="flex justify-between items-center mb-16">
           <div>
             <h1 className="text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-fuchsia-400 to-cyan-400">
@@ -27,7 +33,7 @@ export default async function Home() {
             </h1>
             <p className="mt-2 text-slate-300 text-lg">Explore the latest thoughts, powered by AI.</p>
           </div>
-          <Link href="/admin" className="px-5 py-2.5 rounded-full font-medium text-sm transition-all bg-white/10 hover:bg-white/20 border border-white/10 backdrop-blur-md flex items-center gap-2">
+          <Link href="/admin" className="px-6 py-3 rounded-full font-bold text-sm transition-all bg-white/5 hover:bg-white/10 border border-white/10 backdrop-blur-xl flex items-center gap-2 shadow-lg hover:shadow-cyan-500/20 hover:-translate-y-0.5">
             Admin Area
           </Link>
         </header>
@@ -40,7 +46,7 @@ export default async function Home() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {blogs.map((blog: Blog) => (
-              <Link key={blog.id} href={`/blogs/${blog.id}`} className="group relative rounded-2xl overflow-hidden bg-white/5 border border-white/10 transition-all hover:border-fuchsia-500/50 hover:shadow-[0_0_30px_-5px_rgba(217,70,239,0.3)] hover:-translate-y-1">
+              <Link key={blog.id} href={`/blogs/${blog.id}`} className="group relative rounded-3xl overflow-hidden bg-white/5 border border-white/10 transition-all duration-500 hover:border-fuchsia-500/50 hover:shadow-[0_0_40px_-10px_rgba(217,70,239,0.3)] hover:-translate-y-2 backdrop-blur-sm">
                 {blog.imageUrl && (
                   <div className="aspect-[16/10] overflow-hidden relative">
                     <Image 

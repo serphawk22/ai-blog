@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { cookies } from 'next/headers';
+import { revalidatePath } from 'next/cache';
 
 export async function GET() {
   try {
@@ -37,6 +38,8 @@ export async function POST(request: Request) {
         readTime: parseInt(readTime, 10),
       },
     });
+
+    revalidatePath('/');
 
     return NextResponse.json(newBlog, { status: 201 });
   } catch (error) {
