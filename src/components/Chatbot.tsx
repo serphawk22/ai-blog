@@ -47,20 +47,20 @@ export default function Chatbot({ blogContext }: { blogContext: string }) {
       {/* Floating Action Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className={`fixed bottom-6 right-6 p-4 bg-gradient-to-r from-fuchsia-600 to-cyan-600 text-white rounded-full shadow-lg shadow-fuchsia-900/50 hover:shadow-cyan-900/50 transition-all hover:scale-110 z-40 ${isOpen ? 'scale-0 opacity-0' : 'scale-100 opacity-100'}`}
+        className={`fixed bottom-8 right-8 p-4 bg-white/10 backdrop-blur-xl border border-white/20 text-white rounded-full shadow-[0_0_30px_-5px_rgba(217,70,239,0.5)] hover:shadow-[0_0_40px_0_rgba(6,182,212,0.6)] transition-all duration-500 hover:scale-110 z-40 group animate-float ${isOpen ? 'scale-0 opacity-0' : 'scale-100 opacity-100'}`}
       >
-        <Bot size={28} />
+        <Bot size={28} className="text-fuchsia-300 group-hover:text-cyan-300 transition-colors duration-500" />
       </button>
 
       {/* Chat Window */}
       <div
-        className={`fixed bottom-6 right-6 w-80 sm:w-96 bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl flex flex-col z-50 transition-all duration-300 origin-bottom-right overflow-hidden ${isOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0 pointer-events-none'}`}
+        className={`fixed bottom-8 right-8 w-80 sm:w-96 bg-slate-950/80 backdrop-blur-2xl border border-white/10 rounded-3xl shadow-[0_20px_50px_-12px_rgba(217,70,239,0.3)] flex flex-col z-50 transition-all duration-500 origin-bottom-right overflow-hidden ${isOpen ? 'scale-100 opacity-100 translate-y-0' : 'scale-95 opacity-0 pointer-events-none translate-y-4'}`}
         style={{ height: '500px', maxHeight: '80vh' }}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-4 bg-slate-800 border-b border-slate-700">
-          <div className="flex items-center gap-2 text-white font-semibold">
-            <Sparkles size={20} className="text-fuchsia-400" />
+        <div className="flex items-center justify-between p-5 bg-white/5 border-b border-white/10">
+          <div className="flex items-center gap-2 text-white font-bold tracking-wide">
+            <Sparkles size={20} className="text-fuchsia-400 animate-pulse" />
             <span>AI Assistant</span>
           </div>
           <button onClick={() => setIsOpen(false)} className="text-slate-400 hover:text-white transition-colors">
@@ -105,7 +105,7 @@ export default function Chatbot({ blogContext }: { blogContext: string }) {
         </div>
 
         {/* Input area */}
-        <div className="p-3 bg-slate-800 border-t border-slate-700">
+        <div className="p-4 bg-white/5 border-t border-white/10">
           <form
             onSubmit={(e) => {
               e.preventDefault();

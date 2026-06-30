@@ -69,8 +69,12 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white p-6 md:p-12">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen relative bg-slate-950 text-white p-6 md:p-12 overflow-hidden z-0">
+      {/* Background Blobs */}
+      <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-cyan-600/20 rounded-full blur-[120px] animate-pulse-glow -z-10"></div>
+      <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-fuchsia-600/20 rounded-full blur-[120px] animate-pulse-glow -z-10" style={{ animationDelay: '1.5s' }}></div>
+
+      <div className="max-w-4xl mx-auto relative z-10">
         <header className="mb-12 flex justify-between items-end border-b border-slate-800 pb-6">
           <div>
             <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-fuchsia-400">
@@ -90,7 +94,7 @@ export default function AdminDashboard() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-8 bg-slate-900/50 p-8 rounded-3xl border border-slate-800 shadow-xl">
+        <form onSubmit={handleSubmit} className="space-y-8 bg-white/5 backdrop-blur-2xl p-8 rounded-3xl border border-white/10 shadow-[0_20px_50px_-12px_rgba(217,70,239,0.15)] relative">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-2">
               <label className="flex items-center gap-2 text-sm font-medium text-slate-300">
@@ -101,7 +105,7 @@ export default function AdminDashboard() {
                 required
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-cyan-500 outline-none transition-all"
+                className="w-full bg-slate-950/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 outline-none transition-all placeholder-slate-600 shadow-inner"
                 placeholder="E.g. The Future of AI"
               />
             </div>
@@ -116,7 +120,7 @@ export default function AdminDashboard() {
                 min="1"
                 value={readTime}
                 onChange={(e) => setReadTime(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-fuchsia-500 outline-none transition-all"
+                className="w-full bg-slate-950/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-fuchsia-500 focus:border-fuchsia-500 outline-none transition-all shadow-inner"
               />
             </div>
           </div>
@@ -129,7 +133,7 @@ export default function AdminDashboard() {
               type="url"
               value={imageUrl}
               onChange={(e) => setImageUrl(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-emerald-500 outline-none transition-all"
+              className="w-full bg-slate-950/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all placeholder-slate-600 shadow-inner"
               placeholder="https://example.com/image.jpg"
             />
           </div>
@@ -155,7 +159,7 @@ export default function AdminDashboard() {
               rows={12}
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-cyan-500 outline-none transition-all resize-none font-mono text-sm"
+              className="w-full bg-slate-950/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 outline-none transition-all resize-none font-mono text-sm placeholder-slate-600 shadow-inner"
               placeholder="Write your blog post here..."
             />
           </div>
@@ -163,7 +167,7 @@ export default function AdminDashboard() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full py-4 bg-white text-slate-950 font-bold rounded-xl hover:bg-slate-200 transition-colors disabled:opacity-50"
+            className="w-full py-4 bg-gradient-to-r from-fuchsia-600 to-cyan-600 text-white font-bold rounded-xl shadow-lg hover:shadow-[0_0_20px_-5px_rgba(217,70,239,0.6)] hover:scale-[1.02] transition-all duration-300 disabled:opacity-50 disabled:hover:scale-100"
           >
             {isSubmitting ? 'Publishing...' : 'Publish Blog Post'}
           </button>
