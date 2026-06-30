@@ -14,6 +14,7 @@ export default function AdminDashboard() {
   const [category, setCategory] = useState('Tech');
   const [content, setContent] = useState('');
   const [isParaphrasing, setIsParaphrasing] = useState(false);
+  const [isEnhancing, setIsEnhancing] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   
@@ -40,6 +41,30 @@ export default function AdminDashboard() {
       alert('Failed to paraphrase');
     } finally {
       setIsParaphrasing(false);
+    }
+  };
+
+  const handleEnhance = async () => {
+    if (!content.trim()) return;
+    setIsEnhancing(true);
+    
+    try {
+      const res = await fetch('/api/ai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'enhance', text: content }),
+      });
+      
+      const data = await res.json();
+      if (res.ok) {
+        setContent(data.result);
+      } else {
+        alert('Error enhancing: ' + data.error);
+      }
+    } catch {
+      alert('Failed to enhance');
+    } finally {
+      setIsEnhancing(false);
     }
   };
 
@@ -169,14 +194,24 @@ export default function AdminDashboard() {
             </div>
 
             <div className="mt-8 flex flex-col gap-4">
-              <button
-                type="button"
-                onClick={handleParaphrase}
-                disabled={isParaphrasing || !content.trim()}
-                className="w-full py-4 border border-[#333333] text-sm font-bold tracking-widest hover:bg-[#1A1A1A] transition-colors disabled:opacity-50"
-              >
-                {isParaphrasing ? 'REFINING...' : 'AI PARAPHRASE'}
-              </button>
+              <div className="grid grid-cols-2 gap-4">
+                <button
+                  type="button"
+                  onClick={handleParaphrase}
+                  disabled={isParaphrasing || !content.trim()}
+                  className="w-full py-4 border border-[#333333] text-sm font-bold tracking-widest hover:bg-[#1A1A1A] transition-colors disabled:opacity-50"
+                >
+                  {isParaphrasing ? 'REFINING...' : 'AI PARAPHRASE'}
+                </button>
+                <button
+                  type="button"
+                  onClick={handleEnhance}
+                  disabled={isEnhancing || !content.trim()}
+                  className="w-full py-4 border border-[#333333] text-sm font-bold tracking-widest hover:bg-[#1A1A1A] transition-colors disabled:opacity-50"
+                >
+                  {isEnhancing ? 'FIXING...' : 'AI ENHANCE'}
+                </button>
+              </div>
               
               <button
                 type="submit"
