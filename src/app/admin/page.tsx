@@ -2,7 +2,10 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Lock, User, ArrowRight } from 'lucide-react';
+import { Sparkles, Lock, User, AlertCircle } from 'lucide-react';
+import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
+import Link from 'next/link';
 
 export default function AdminLogin() {
   const [username, setUsername] = useState('');
@@ -17,7 +20,7 @@ export default function AdminLogin() {
     setError('');
 
     try {
-      const res = await fetch('/api/auth', {
+      const res = await fetch('/api/admin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
@@ -26,7 +29,7 @@ export default function AdminLogin() {
       if (res.ok) {
         router.push('/admin/dashboard');
       } else {
-        setError('Invalid username or password');
+        setError('Invalid credentials');
       }
     } catch {
       setError('An error occurred');
@@ -36,64 +39,58 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4 selection:bg-cyan-900 selection:text-cyan-100">
-      <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl p-8 relative overflow-hidden">
-        {/* Decorative elements */}
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-fuchsia-500 to-cyan-500"></div>
-        <div className="absolute -top-24 -right-24 w-48 h-48 bg-fuchsia-500/10 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-cyan-500/10 rounded-full blur-3xl"></div>
+    <div className="min-h-screen relative flex items-center justify-center bg-ds-background p-6 font-sans overflow-hidden">
+      {/* Background Blobs */}
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-ds-purple/20 rounded-full blur-[120px] animate-float pointer-events-none"></div>
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-ds-cyan/20 rounded-full blur-[120px] animate-float-slow pointer-events-none" style={{ animationDelay: '1s' }}></div>
 
-        <div className="relative z-10">
-          <div className="text-center mb-10">
-            <h1 className="text-3xl font-bold text-white mb-2">Admin Portal</h1>
-            <p className="text-slate-400 text-sm">Sign in to manage your Nexus AI blogs</p>
+      <Link href="/" className="absolute top-8 left-8 flex items-center gap-2 group z-20">
+        <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white/10 transition-colors">
+          <Sparkles size={18} className="text-white" />
+        </div>
+        <span className="font-bold text-white tracking-tight text-lg">Nexus AI</span>
+      </Link>
+
+      <div className="w-full max-w-md relative z-10 animate-slide-up">
+        <div className="glass-panel p-10 md:p-12 rounded-[40px] text-center border border-white/10 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.8)] backdrop-blur-2xl">
+          
+          <div className="w-16 h-16 rounded-2xl bg-gradient-premium mx-auto mb-8 flex items-center justify-center shadow-[0_0_30px_rgba(157,78,221,0.5)]">
+            <Lock size={28} className="text-white" />
           </div>
 
+          <h1 className="text-3xl font-extrabold text-white mb-2 tracking-tight">Admin Portal</h1>
+          <p className="text-slate-400 font-medium mb-10 text-sm">Sign in to manage your Nexus AI content.</p>
+
           <form onSubmit={handleLogin} className="space-y-6">
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">Username</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
-                  <User size={18} />
-                </div>
-                <input
-                  type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-3 bg-slate-950 border border-slate-700 rounded-xl text-white focus:ring-2 focus:ring-fuchsia-500 focus:border-transparent transition-all outline-none"
-                  placeholder="Enter admin ID"
-                  required
-                />
-              </div>
+            <div className="space-y-4">
+              <Input
+                type="text"
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                icon={User}
+                required
+              />
+              <Input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                icon={Lock}
+                required
+              />
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">Password</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
-                  <Lock size={18} />
-                </div>
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-3 bg-slate-950 border border-slate-700 rounded-xl text-white focus:ring-2 focus:ring-fuchsia-500 focus:border-transparent transition-all outline-none"
-                  placeholder="••••••••"
-                  required
-                />
+            {error && (
+              <div className="p-4 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm flex items-center justify-center gap-2 animate-fade-in font-medium">
+                <AlertCircle size={16} />
+                {error}
               </div>
-            </div>
+            )}
 
-            {error && <p className="text-red-400 text-sm text-center bg-red-400/10 py-2 rounded-lg">{error}</p>}
-
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full py-3 bg-white text-slate-950 font-semibold rounded-xl hover:bg-slate-200 transition-colors flex items-center justify-center gap-2 group disabled:opacity-50"
-            >
-              {isLoading ? 'Signing in...' : 'Sign In'}
-              {!isLoading && <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />}
-            </button>
+            <Button type="submit" variant="primary" className="w-full py-4 text-lg mt-8" disabled={isLoading}>
+              {isLoading ? 'Authenticating...' : 'Sign In'}
+            </Button>
           </form>
         </div>
       </div>
