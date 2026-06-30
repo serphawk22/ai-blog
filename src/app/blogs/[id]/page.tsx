@@ -47,17 +47,7 @@ export default async function BlogDetail({ params }: { params: Promise<{ id: str
           </h1>
         </div>
 
-        {blog.imageUrl && (
-          <div className="w-full aspect-video relative mb-16 border border-[#333333] bg-[#1A1A1A]">
-            <Image 
-              src={blog.imageUrl} 
-              alt={blog.title} 
-              fill 
-              className="object-cover grayscale hover:grayscale-0 transition-all duration-700" 
-              priority 
-            />
-          </div>
-        )}
+
         
         <div className="max-w-[800px] mx-auto">
           <article className="prose prose-invert max-w-none prose-lg md:prose-xl leading-relaxed text-[#cccccc] prose-headings:font-bold prose-headings:text-[#FDFBF7] prose-headings:tracking-tight prose-a:text-[#FDFBF7] prose-a:underline prose-img:border prose-img:border-[#333333] prose-blockquote:border-[#FDFBF7] prose-blockquote:text-[#888888] prose-strong:text-[#FDFBF7] mb-16">

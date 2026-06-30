@@ -26,6 +26,9 @@ export async function POST(request: Request) {
     } else if (action === 'paraphrase') {
       systemPrompt = 'You are an expert editor. Rewrite and paraphrase the provided text to make it sound more professional, clear, and engaging. Return ONLY the paraphrased text without any extra conversational filler.';
       userPrompt = `Text to paraphrase:\n${text}`;
+    } else if (action === 'enhance') {
+      systemPrompt = 'You are an expert editor and grammar specialist. Fix any broken English, correct grammar mistakes, and logically complete any broken or unfinished thoughts in the provided text while keeping the original meaning and tone intact. Return ONLY the enhanced text without conversational filler.';
+      userPrompt = `Text to enhance:\n${text}`;
     } else {
       return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
     }
