@@ -60,11 +60,11 @@ export default async function BlogDetail({ params }: { params: Promise<{ id: str
         )}
         
         <div className="max-w-[800px] mx-auto">
-          <BlogSummary content={blog.content} />
-          
-          <article className="prose prose-invert max-w-none prose-lg md:prose-xl leading-relaxed text-[#cccccc] prose-headings:font-bold prose-headings:text-[#FDFBF7] prose-headings:tracking-tight prose-a:text-[#FDFBF7] prose-a:underline prose-img:border prose-img:border-[#333333] prose-blockquote:border-[#FDFBF7] prose-blockquote:text-[#888888] prose-strong:text-[#FDFBF7]">
+          <article className="prose prose-invert max-w-none prose-lg md:prose-xl leading-relaxed text-[#cccccc] prose-headings:font-bold prose-headings:text-[#FDFBF7] prose-headings:tracking-tight prose-a:text-[#FDFBF7] prose-a:underline prose-img:border prose-img:border-[#333333] prose-blockquote:border-[#FDFBF7] prose-blockquote:text-[#888888] prose-strong:text-[#FDFBF7] mb-16">
             <ReactMarkdown>{blog.content}</ReactMarkdown>
           </article>
+          
+          <BlogSummary content={blog.content} />
         </div>
       </main>
 

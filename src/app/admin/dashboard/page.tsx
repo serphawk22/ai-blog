@@ -114,14 +114,31 @@ export default function AdminDashboard() {
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="text-xs font-bold tracking-widest text-[#888888]">IMAGE URL</label>
-              <input
-                type="url"
-                value={imageUrl}
-                onChange={(e) => setImageUrl(e.target.value)}
-                className="w-full bg-black border-b border-[#333333] px-0 py-3 text-[#FDFBF7] focus:outline-none focus:border-[#FDFBF7] transition-colors font-mono text-sm placeholder:text-[#333333]"
-                placeholder="https://..."
-              />
+              <label className="text-xs font-bold tracking-widest text-[#888888]">IMAGE</label>
+              <div className="flex gap-4 items-center">
+                <input
+                  type="url"
+                  value={imageUrl}
+                  onChange={(e) => setImageUrl(e.target.value)}
+                  className="flex-1 bg-black border-b border-[#333333] px-0 py-3 text-[#FDFBF7] focus:outline-none focus:border-[#FDFBF7] transition-colors font-mono text-sm placeholder:text-[#333333]"
+                  placeholder="https://... OR"
+                />
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      const reader = new FileReader();
+                      reader.onloadend = () => {
+                        setImageUrl(reader.result as string);
+                      };
+                      reader.readAsDataURL(file);
+                    }
+                  }}
+                  className="w-full max-w-[120px] text-xs file:mr-4 file:py-2 file:px-4 file:border-0 file:text-xs file:font-bold file:bg-[#FDFBF7] file:text-black hover:file:bg-[#dddddd] cursor-pointer"
+                />
+              </div>
             </div>
 
             <div className="grid grid-cols-2 gap-6">
