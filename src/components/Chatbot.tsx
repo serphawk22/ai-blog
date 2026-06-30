@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Bot, X, MessageSquare, Sparkles, Send } from 'lucide-react';
+import { Bot, X, Sparkles, Send } from 'lucide-react';
 
 export default function Chatbot({ blogContext }: { blogContext: string }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -35,7 +35,7 @@ export default function Chatbot({ blogContext }: { blogContext: string }) {
       } else {
         setMessages((prev) => [...prev, { role: 'ai', content: 'Error: ' + data.error }]);
       }
-    } catch (error) {
+    } catch {
       setMessages((prev) => [...prev, { role: 'ai', content: 'An unexpected error occurred.' }]);
     } finally {
       setIsLoading(false);

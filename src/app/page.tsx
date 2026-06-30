@@ -1,5 +1,7 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import prisma from '@/lib/prisma';
+import { Blog } from '@prisma/client';
 
 
 async function getBlogs() {
@@ -37,14 +39,16 @@ export default async function Home() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {blogs.map((blog: any) => (
+            {blogs.map((blog: Blog) => (
               <Link key={blog.id} href={`/blogs/${blog.id}`} className="group relative rounded-2xl overflow-hidden bg-white/5 border border-white/10 transition-all hover:border-fuchsia-500/50 hover:shadow-[0_0_30px_-5px_rgba(217,70,239,0.3)] hover:-translate-y-1">
                 {blog.imageUrl && (
-                  <div className="aspect-[16/10] overflow-hidden">
-                    <img 
+                  <div className="aspect-[16/10] overflow-hidden relative">
+                    <Image 
                       src={blog.imageUrl} 
                       alt={blog.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                   </div>
                 )}

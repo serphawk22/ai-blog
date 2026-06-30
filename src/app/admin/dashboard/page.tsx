@@ -32,7 +32,7 @@ export default function AdminDashboard() {
       } else {
         alert('Error paraphrasing: ' + data.error);
       }
-    } catch (e) {
+    } catch {
       alert('Failed to paraphrase');
     } finally {
       setIsParaphrasing(false);
@@ -61,7 +61,7 @@ export default function AdminDashboard() {
       } else {
         setMessage({ type: 'error', text: 'Failed to publish blog. Please check if you are authenticated.' });
       }
-    } catch (e) {
+    } catch {
       setMessage({ type: 'error', text: 'An unexpected error occurred.' });
     } finally {
       setIsSubmitting(false);
