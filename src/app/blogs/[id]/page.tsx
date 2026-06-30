@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, Clock, Calendar } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
@@ -12,7 +13,7 @@ async function getBlog(id: string) {
       where: { id }
     });
     return blog;
-  } catch (e) {
+  } catch {
     return null;
   }
 }
@@ -57,10 +58,12 @@ export default async function BlogDetail({ params }: { params: { id: string } })
 
           {blog.imageUrl && (
             <div className="mb-12 rounded-3xl overflow-hidden shadow-2xl border border-white/5 relative aspect-video">
-              <img 
+              <Image 
                 src={blog.imageUrl} 
                 alt={blog.title}
-                className="w-full h-full object-cover"
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="object-cover"
               />
             </div>
           )}
