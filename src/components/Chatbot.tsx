@@ -24,7 +24,8 @@ export default function Chatbot({ blogContext = '' }: { blogContext?: string }) 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           action: 'chat',
-          text: `Context: ${blogContext}\n\nQuestion: ${userMessage}`,
+          text: userMessage,
+          context: blogContext,
         }),
       });
 
