@@ -50,8 +50,11 @@ export default function BlogSummary({ content }: { content: string }) {
       </div>
       
       {isLoading && (
-        <div className="text-xs font-bold tracking-widest text-[#888888] animate-pulse">
-          ANALYZING TEXT...
+        <div className="space-y-3 animate-pulse">
+          <div className="h-4 bg-[#333333] rounded w-3/4"></div>
+          <div className="h-4 bg-[#333333] rounded w-full"></div>
+          <div className="h-4 bg-[#333333] rounded w-5/6"></div>
+          <div className="h-4 bg-[#333333] rounded w-1/2"></div>
         </div>
       )}
       
