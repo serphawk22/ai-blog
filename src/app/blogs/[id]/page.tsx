@@ -3,7 +3,10 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
 import Chatbot from '@/components/Chatbot';
+import BlogSummary from '@/components/BlogSummary';
 import prisma from '@/lib/prisma';
+
+export const dynamic = 'force-dynamic';
 
 async function getBlog(id: string) {
   try {
@@ -16,8 +19,9 @@ async function getBlog(id: string) {
   }
 }
 
-export default async function BlogDetail({ params }: { params: { id: string } }) {
-  const blog = await getBlog(params.id);
+export default async function BlogDetail({ params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = await params;
+  const blog = await getBlog(resolvedParams.id);
 
   if (!blog) {
     notFound();
@@ -54,10 +58,14 @@ export default async function BlogDetail({ params }: { params: { id: string } })
             />
           </div>
         )}
-
-        <article className="prose prose-invert max-w-[800px] mx-auto prose-lg md:prose-xl leading-relaxed text-[#cccccc] prose-headings:font-bold prose-headings:text-[#FDFBF7] prose-headings:tracking-tight prose-a:text-[#FDFBF7] prose-a:underline prose-img:border prose-img:border-[#333333] prose-blockquote:border-[#FDFBF7] prose-blockquote:text-[#888888] prose-strong:text-[#FDFBF7]">
-          <ReactMarkdown>{blog.content}</ReactMarkdown>
-        </article>
+        
+        <div className="max-w-[800px] mx-auto">
+          <BlogSummary content={blog.content} />
+          
+          <article className="prose prose-invert max-w-none prose-lg md:prose-xl leading-relaxed text-[#cccccc] prose-headings:font-bold prose-headings:text-[#FDFBF7] prose-headings:tracking-tight prose-a:text-[#FDFBF7] prose-a:underline prose-img:border prose-img:border-[#333333] prose-blockquote:border-[#FDFBF7] prose-blockquote:text-[#888888] prose-strong:text-[#FDFBF7]">
+            <ReactMarkdown>{blog.content}</ReactMarkdown>
+          </article>
+        </div>
       </main>
 
       <footer className="border-t border-[#1A1A1A] py-12 px-6 mt-20">
